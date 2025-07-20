@@ -4,7 +4,7 @@ import { FaBars } from "react-icons/fa";
 function Nav({ showMenu, setShowMenu }) {
   return (
     <>
-      <header className="AppHeader">
+      <header className="NavHeader">
         <FaBars
           size={24}
           className="hamburger-icon"
