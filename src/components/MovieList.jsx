@@ -5,17 +5,19 @@ const MovieList = (props) => {
 
   return (
     <>
-      {props.movies.map((movie, index) => (
-        <div className="image-container d-flex justify-content-center col-auto">
-          <img src={movie.Poster} alt="movie"></img>
-          <div
-            className="overlay d-flex align-items-center justify-content-center col-auto"
-            onClick={() => props.handleFavouritesClick(movie)}
-          >
-            <FavouriteComponent />
+      <div style={{ display: "flex", gap: "0", flexWrap: "nowrap" }}>
+        {props.movies.map((movie, index) => (
+          <div key={index} style={{ flex: "0 0 auto" }}>
+            <img src={movie.Poster} alt="movie"></img>
+            <div
+              className=""
+              onClick={() => props.handleFavouritesClick(movie)}
+            >
+              <FavouriteComponent />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </>
   );
 };

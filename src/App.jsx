@@ -54,12 +54,17 @@ const App = () => {
         <Nav showMenu={showMenu} setShowMenu={setShowMenu} />
       </div>
 
-      <div className="MovieTitleAndSearch">
-        <MovieListHeading heading="Movies" />
-        <SearchBox searchValue={searchValue} setsearchValue={setsearchValue} />
-      </div>
+      <div className="container-fluid movie-app">
+        <div className="MovieTitleAndSearch">
+          <div className="row">
+            <MovieListHeading heading="Movies" />
+            <SearchBox
+              searchValue={searchValue}
+              setsearchValue={setsearchValue}
+            />
+          </div>
+        </div>
 
-      <div className="movie-app">
         <div className="row">
           <MovieList
             movies={movies}

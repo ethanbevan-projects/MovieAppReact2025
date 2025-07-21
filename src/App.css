@@ -3,6 +3,16 @@ body {
   background-color: rgb(0, 9, 0);
 }
 
+.movie-app .row {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+.row img {
+  width: 300px;
+  margin: 10px;
+}
+
 #root {
   width: 100%;
 }
@@ -14,11 +24,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed; /* ✅ Add this */
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 2000;
-  height: 60px; /* optional: fix height */
+  height: 60px;
 }
 
 .MovieTitleAndSearch {
@@ -33,7 +43,6 @@ body {
 body,
 html {
   height: 100%;
-  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -42,17 +51,6 @@ h2,
 h3 {
   color: white;
   margin: 20px;
-}
-
-.movie-app > .row {
-  overflow-x: auto;
-  flex-wrap: nowrap;
-  margin: 0; /* ADD */
-  scrollbar-width: none;
-  gap: 15px;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
 }
 
 .movie-app .image-container {
