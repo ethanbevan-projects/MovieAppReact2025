@@ -50,13 +50,11 @@ const App = () => {
 
   return (
     <div className="MoviesApp">
-      <div>
-        <Nav showMenu={showMenu} setShowMenu={setShowMenu} />
-      </div>
+      <Nav showMenu={showMenu} setShowMenu={setShowMenu} />
 
-      <div className="container-fluid movie-app">
-        <div className="MovieTitleAndSearch">
-          <div className="row">
+      <div className="container-fluid ">
+        <div className="MovieTitleAndSearchBox">
+          <div className=" MovieTitleAndSearch d-flex justify-content-between align-items-center gap-3">
             <MovieListHeading heading="Movies" />
             <SearchBox
               searchValue={searchValue}
@@ -64,13 +62,14 @@ const App = () => {
             />
           </div>
         </div>
-
-        <div className="row">
-          <MovieList
-            movies={movies}
-            handleFavouritesClick={addFavouriteMovie}
-            favouriteComponent={addFavourites}
-          />
+        <div className="container-fluid movie-app">
+          <div className="row">
+            <MovieList
+              movies={movies}
+              handleFavouritesClick={addFavouriteMovie}
+              favouriteComponent={addFavourites}
+            />
+          </div>
         </div>
       </div>
     </div>

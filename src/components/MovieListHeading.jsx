@@ -1,11 +1,7 @@
 import React from "react";
 
 const MovieListHeading = (props) => {
-  return (
-    <div>
-      <h1>{props.heading}</h1>
-    </div>
-  );
+  return <h1>{props.heading}</h1>;
 };
 
 export default MovieListHeading;

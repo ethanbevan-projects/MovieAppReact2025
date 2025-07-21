@@ -3,16 +3,6 @@ body {
   background-color: rgb(0, 9, 0);
 }
 
-.movie-app .row {
-  overflow-x: auto;
-  flex-wrap: nowrap;
-}
-
-.row img {
-  width: 300px;
-  margin: 10px;
-}
-
 #root {
   width: 100%;
 }
@@ -24,11 +14,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: relative;
   top: 0;
   width: 100%;
   z-index: 2000;
-  height: 60px;
+  height: 100%;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .MovieTitleAndSearch {
@@ -52,12 +44,6 @@ h3 {
   color: white;
   margin: 20px;
 }
-
-.movie-app .image-container {
-  flex: 0 0 200px; /* or whatever your card width is */
-}
-
-/* Nav */
 
 .NavHeader {
   background: #10101000;
@@ -147,15 +133,16 @@ img {
 .image-container {
   position: relative;
   transform: transform 0.5s;
-  overflow: hidden;
-  padding: 0px;
-  border: none;
-  margin: 0;
+}
+
+.row img {
+  width: 300px;
+  height: 450px;
 }
 
 .image-container:hover {
   cursor: pointer;
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 .image-container:hover .overlay {
@@ -172,16 +159,6 @@ img {
   font-size: 20px;
   padding: 20px;
   text-align: center;
-  left: 0;
-  right: 0;
-  box-sizing: border-box;
-  left: 0;
-  right: 0;
-  width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  border-left: 1px solid transparent;
-  border-right: 1px solid transparent;
 }
 
 img {
@@ -189,4 +166,27 @@ img {
   width: 100%;
   margin: 0;
   border: none;
+}
+
+.displayMovies {
+  margin-top: 500px;
+}
+
+.MovieTitleAndSearch {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* spacing between title and input */
+}
+
+.MovieTitleAndSearch input {
+  width: 20%;
+}
+
+.movie-app .row {
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+.MovieTitleAndSearchBox {
+  margin-bottom: 50px;
 }

@@ -5,12 +5,12 @@ const MovieList = (props) => {
 
   return (
     <>
-      <div style={{ display: "flex", gap: "0", flexWrap: "nowrap" }}>
+      <div style={{ display: "flex", gap: "20px", flexWrap: "nowrap" }}>
         {props.movies.map((movie, index) => (
-          <div key={index} style={{ flex: "0 0 auto" }}>
+          <div className="image-container d-flex align-items-center justify-content-center">
             <img src={movie.Poster} alt="movie"></img>
             <div
-              className=""
+              className="overlay d-flex align-items-center justify-content-center"
               onClick={() => props.handleFavouritesClick(movie)}
             >
               <FavouriteComponent />
