@@ -14,7 +14,7 @@ const App = () => {
   const [showMenu, setShowMenu] = useState(false);
 
   const [movies, setMovies] = useState([]);
-  const [searchValue, setsearchValue] = useState(" ");
+  const [searchValue, setsearchValue] = useState("");
 
   const getMovieRequest = async () => {
     const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=df9e59e0`;
@@ -23,16 +23,14 @@ const App = () => {
 
     if (responsJson.Search) {
       setMovies(responsJson.Search);
-      saveToLocalStorageSearch(searchValue);
     }
   };
 
   useEffect(() => {
-    getMovieRequest();
-  }, [searchValue]);
-
-  useEffect(() => {
-    saveToLocalStorageSearch(searchValue);
+    if (searchValue) {
+      getMovieRequest();
+      localStorage.setItem("lastSearch", searchValue);
+    }
   }, [searchValue]);
 
   const [favourites, setFavourites] = useState([]);
@@ -55,12 +53,6 @@ const App = () => {
     localStorage.setItem("react-movie-app-favourites", JSON.stringify(items));
   };
 
-  const saveToLocalStorageSearch = (search) => {
-    if (search !== undefined) {
-      localStorage.setItem("last-search-term", JSON.stringify(search));
-    }
-  };
-
   useEffect(() => {
     const storedFavourites = localStorage.getItem("react-movie-app-favourites");
     if (storedFavourites) {
@@ -70,10 +62,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const storedSearch = localStorage.getItem("last-search-term");
-    if (storedSearch) {
-      setsearchValue(JSON.parse(storedSearch));
-    }
+    const savedSearch = localStorage.getItem("lastSearch");
+    if (savedSearch) setsearchValue(savedSearch);
   }, []);
 
   return (
