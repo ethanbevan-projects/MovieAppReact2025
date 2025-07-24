@@ -7,7 +7,10 @@ const MovieList = (props) => {
     <>
       <div style={{ display: "flex", gap: "20px", flexWrap: "nowrap" }}>
         {props.movies.map((movie, index) => (
-          <div className="image-container d-flex align-items-center justify-content-center">
+          <div
+            key={movie.imdbID}
+            className="image-container d-flex align-items-center justify-content-center"
+          >
             <img src={movie.Poster} alt="movie"></img>
             <div
               className="overlay d-flex align-items-center justify-content-center"

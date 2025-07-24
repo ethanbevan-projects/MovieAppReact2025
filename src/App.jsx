@@ -8,24 +8,13 @@ import Nav from "./components/Nav";
 import MovieListHeading from "./components/MovieListHeading";
 import SearchBox from "./components/SearchBox";
 import addFavourites from "./components/addFavourites";
+import RemoveFavourites from "./components/RemoveFavourites";
 
 const App = () => {
   const [showMenu, setShowMenu] = useState(false);
 
-  useEffect(() => {
-    function onScroll() {
-      if (showMenu) {
-        setShowNoteButton(false);
-      } else if (window.scrollY < 100) {
-        setShowNoteButton(true);
-      } else {
-        setShowNoteButton(false);
-      }
-    }
-  });
-
   const [movies, setMovies] = useState([]);
-  const [searchValue, setsearchValue] = useState("");
+  const [searchValue, setsearchValue] = useState(" ");
 
   const getMovieRequest = async () => {
     const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=df9e59e0`;
@@ -34,6 +23,7 @@ const App = () => {
 
     if (responsJson.Search) {
       setMovies(responsJson.Search);
+      saveToLocalStorageSearch(searchValue);
     }
   };
 
@@ -41,12 +31,50 @@ const App = () => {
     getMovieRequest();
   }, [searchValue]);
 
+  useEffect(() => {
+    saveToLocalStorageSearch(searchValue);
+  }, [searchValue]);
+
   const [favourites, setFavourites] = useState([]);
 
   const addFavouriteMovie = (movie) => {
     const newFavouriteList = [...favourites, movie];
     setFavourites(newFavouriteList);
+    saveToLocalStorage(newFavouriteList);
   };
+
+  const removeFavouriteMovie = (movie) => {
+    const newFavouriteList = favourites.filter(
+      (favourite) => favourite.imdbID !== movie.imdbID
+    );
+    setFavourites(newFavouriteList);
+    saveToLocalStorage(newFavouriteList);
+  };
+
+  const saveToLocalStorage = (items) => {
+    localStorage.setItem("react-movie-app-favourites", JSON.stringify(items));
+  };
+
+  const saveToLocalStorageSearch = (search) => {
+    if (search !== undefined) {
+      localStorage.setItem("last-search-term", JSON.stringify(search));
+    }
+  };
+
+  useEffect(() => {
+    const storedFavourites = localStorage.getItem("react-movie-app-favourites");
+    if (storedFavourites) {
+      const movieFavourites = JSON.parse(storedFavourites);
+      setFavourites(movieFavourites);
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedSearch = localStorage.getItem("last-search-term");
+    if (storedSearch) {
+      setsearchValue(JSON.parse(storedSearch));
+    }
+  }, []);
 
   return (
     <div className="MoviesApp">
@@ -68,6 +96,17 @@ const App = () => {
               movies={movies}
               handleFavouritesClick={addFavouriteMovie}
               favouriteComponent={addFavourites}
+            />
+          </div>
+          <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
+            <MovieListHeading heading="Favourites" />
+          </div>
+
+          <div className="row favouriteRow">
+            <MovieList
+              movies={favourites}
+              handleFavouritesClick={removeFavouriteMovie}
+              favouriteComponent={RemoveFavourites}
             />
           </div>
         </div>
