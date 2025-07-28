@@ -148,6 +148,7 @@ img {
 .image-container {
   position: relative;
   transform: transform 0.5s;
+  height: 490px;
 }
 
 .row img {
@@ -200,6 +201,8 @@ img {
 .movie-app .row {
   overflow-x: auto;
   flex-wrap: nowrap;
+  scroll-behavior: smooth;
+  height: 520px;
 }
 
 .MovieTitleAndSearchBox {

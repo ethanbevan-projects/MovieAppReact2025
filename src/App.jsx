@@ -9,12 +9,15 @@ import MovieListHeading from "./components/MovieListHeading";
 import SearchBox from "./components/SearchBox";
 import addFavourites from "./components/addFavourites";
 import RemoveFavourites from "./components/RemoveFavourites";
+import HistoryList from "./components/HistoryList";
 
 const App = () => {
   const [showMenu, setShowMenu] = useState(false);
-
   const [movies, setMovies] = useState([]);
   const [searchValue, setsearchValue] = useState("");
+  const [favourites, setFavourites] = useState([]);
+  const [historySaves, sethistorySaves] = useState([]);
+  const [historyShows, sethistoryShows] = useState([]);
 
   const getMovieRequest = async () => {
     const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=df9e59e0`;
@@ -23,17 +26,70 @@ const App = () => {
 
     if (responsJson.Search) {
       setMovies(responsJson.Search);
+      localStorage.setItem("lastSearch", searchValue);
     }
   };
 
   useEffect(() => {
+    const savedSearch = localStorage.getItem("lastSearch");
+    if (savedSearch) setsearchValue(savedSearch);
+  }, []);
+
+  useEffect(() => {
     if (searchValue) {
       getMovieRequest();
-      localStorage.setItem("lastSearch", searchValue);
     }
   }, [searchValue]);
 
-  const [favourites, setFavourites] = useState([]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("3 seconds");
+
+      const historySavedBox = JSON.parse(
+        localStorage.getItem("historySaves") || "[]"
+      );
+
+      if (searchValue && !historySavedBox.includes(searchValue)) {
+        const updatedhistorySavedBox = [searchValue, ...historySavedBox];
+
+        sethistorySaves(updatedhistorySavedBox);
+
+        console.log({ updatedhistorySavedBox });
+
+        localStorage.setItem(
+          "historySaves",
+          JSON.stringify(updatedhistorySavedBox)
+        );
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [searchValue]);
+
+  useEffect(() => {
+    if (historySaves[1]) {
+      getHistoryRequest();
+    }
+  }, [historySaves]);
+
+  const getHistoryRequest = async () => {
+    const urlHistory = `http://www.omdbapi.com/?s=${historySaves[1]}&apikey=df9e59e0`;
+    const responseHistory = await fetch(urlHistory);
+    const responsJsonHistory = await responseHistory.json();
+
+    if (responsJsonHistory.Search) {
+      sethistoryShows(responsJsonHistory.Search);
+    }
+  };
+
+  useEffect(() => {
+    const savedHistorySaves = JSON.parse(
+      localStorage.getItem("historySaves") || "[]"
+    );
+    console.log("Loaded from localStorage:", savedHistorySaves);
+
+    sethistorySaves(savedHistorySaves);
+  }, []);
 
   const addFavouriteMovie = (movie) => {
     const newFavouriteList = [...favourites, movie];
@@ -55,15 +111,11 @@ const App = () => {
 
   useEffect(() => {
     const storedFavourites = localStorage.getItem("react-movie-app-favourites");
+
     if (storedFavourites) {
       const movieFavourites = JSON.parse(storedFavourites);
       setFavourites(movieFavourites);
     }
-  }, []);
-
-  useEffect(() => {
-    const savedSearch = localStorage.getItem("lastSearch");
-    if (savedSearch) setsearchValue(savedSearch);
   }, []);
 
   return (
@@ -73,7 +125,7 @@ const App = () => {
       <div className="container-fluid ">
         <div className="MovieTitleAndSearchBox">
           <div className=" MovieTitleAndSearch d-flex justify-content-between align-items-center gap-3">
-            <MovieListHeading heading="Movies" />
+            <MovieListHeading heading="Recent Searches" />
             <SearchBox
               searchValue={searchValue}
               setsearchValue={setsearchValue}
@@ -91,13 +143,28 @@ const App = () => {
           <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
             <MovieListHeading heading="Favourites" />
           </div>
-
           <div className="row favouriteRow">
             <MovieList
               movies={favourites}
               handleFavouritesClick={removeFavouriteMovie}
               favouriteComponent={RemoveFavourites}
             />
+          </div>
+
+          <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
+            <MovieListHeading heading="Recent History" />
+          </div>
+
+          <div className="row">
+            <HistoryList
+              historyShows={historyShows}
+              handleFavouritesClick={addFavouriteMovie}
+              favouriteComponent={addFavourites}
+            />
+          </div>
+
+          <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
+            <MovieListHeading heading="Your Recommended" />
           </div>
         </div>
       </div>

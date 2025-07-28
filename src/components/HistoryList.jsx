@@ -1,25 +1,20 @@
 import React from "react";
 
-const MovieList = (props) => {
+const HistoryList = (props) => {
   const FavouriteComponent = props.favouriteComponent;
 
   return (
     <>
       <div style={{ display: "flex", gap: "20px", flexWrap: "nowrap" }}>
-        {props.movies.map((movie, index) => (
+        {props.historyShows.map((historyShow, index) => (
           <div
-            key={movie.imdbID}
+            key={historyShow.imdbID}
             className="image-container d-flex align-items-center justify-content-center"
           >
-            <img
-              src={movie.Poster}
-              alt="movie"
-              onError={(e) => (e.target.style.display = "none")}
-            />
-
+            <img src={historyShow.Poster} alt="historyShow"></img>
             <div
               className="overlay d-flex align-items-center justify-content-center"
-              onClick={() => props.handleFavouritesClick(movie)}
+              onClick={() => props.handleFavouritesClick(historyShow)}
             >
               <FavouriteComponent />
             </div>
@@ -30,4 +25,4 @@ const MovieList = (props) => {
   );
 };
 
-export default MovieList;
+export default HistoryList;
