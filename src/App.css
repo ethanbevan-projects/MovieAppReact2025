@@ -1,6 +1,6 @@
 /* Css from start */
 body {
-  background-color: rgb(0, 9, 0);
+  background: linear-gradient(to top, #022a02, #000000);
 }
 
 #root {
@@ -125,7 +125,7 @@ h3 {
 
 img {
   size: 20px;
-  filter: contrast(120%) saturate(110%) brightness(100%);
+  filter: contrast(130%) saturate(130%) brightness(100%);
 }
 
 .MoviesSearch {
@@ -173,8 +173,11 @@ img {
   opacity: 0;
   bottom: 0;
   font-size: 20px;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
+  top: 0;
+  height: 15%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent);
 }
 
 img {
@@ -229,4 +232,17 @@ img {
 
 .MovieFavouriteTitle {
   margin-top: 15px;
+}
+
+.MovieCard {
+  flex-direction: column;
+}
+
+.MovieCardText h2 {
+  font-size: 14px;
+  text-align: center;
+}
+
+.MovieCardText {
+  width: 100%;
 }

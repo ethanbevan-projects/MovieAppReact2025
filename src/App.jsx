@@ -21,6 +21,7 @@ const App = () => {
   const [historySaves, sethistorySaves] = useState([]);
   const [historyShows, sethistoryShows] = useState([]);
   const [genreHistories, setgenreHistories] = useState([]);
+  const [popularMovies, setpopularMovies] = useState([]);
 
   const getMovieRequest = async () => {
     const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=df9e59e0`;
@@ -39,7 +40,7 @@ const App = () => {
         const fullDetailsResponse = await fetch(fullDetailsUrl);
         const fullMovieDetails = await fullDetailsResponse.json();
         const votes = +fullMovieDetails.imdbVotes?.replace(/,/g, "") || 0;
-        return votes >= 10000 ? fullMovieDetails : null;
+        return votes >= 50000 ? fullMovieDetails : null;
       })
     );
 
@@ -70,7 +71,7 @@ const App = () => {
             titleLower.includes(word)
           );
 
-          if (voteCount >= 10000 && hasAnyWord) {
+          if (voteCount >= 50000 && hasAnyWord) {
             foundValid = true;
             break;
           }
@@ -149,6 +150,24 @@ const App = () => {
     sethistorySaves(savedHistorySaves);
   }, []);
 
+  const getPopularRequest = async () => {
+    const moviesWithPosters = await Promise.all(
+      popularMovies2025.map(async ({ title }) => {
+        const url = `https://www.omdbapi.com/?t=${encodeURIComponent(
+          title
+        )}&apikey=df9e59e0`;
+        const response = await fetch(url);
+        const data = await response.json();
+        return { title, poster: data.Poster };
+      })
+    );
+    setpopularMovies(moviesWithPosters);
+  };
+
+  useEffect(() => {
+    getPopularRequest();
+  }, []);
+
   const addFavouriteMovie = (movie) => {
     const newFavouriteList = [...favourites, movie];
     setFavourites(newFavouriteList);
@@ -200,7 +219,15 @@ const App = () => {
           </div>
 
           <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
-            <MovieListHeading heading="Your Recommendations" />
+            <MovieListHeading heading="Our Top Picks" />
+          </div>
+
+          <div className="row">
+            <PopularList
+              popularMovies={popularMovies}
+              handleFavouritesClick={addFavouriteMovie}
+              favouriteComponent={addFavourites}
+            />
           </div>
 
           <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">

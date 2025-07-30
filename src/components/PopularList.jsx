@@ -1,20 +1,22 @@
 import React from "react";
 
-const PopularList = () => {
+const PopularList = (props) => {
   const FavouriteComponent = props.favouriteComponent;
 
   return (
     <>
       <div style={{ display: "flex", gap: "20px", flexWrap: "nowrap" }}>
-        {popularMovies2025.map((movie) => (
-          <div className="image-container d-flex align-items-center justify-content-center">
-            <li key={movie.title}>{movie.title}</li>
-
+        {props.popularMovies.map((popularMovie) => (
+          <div className="image-container d-flex align-items-center justify-content-center MovieCard">
             <img
-              src=""
+              src={popularMovie.poster}
               alt="movie"
               onError={(e) => (e.target.style.display = "none")}
             />
+
+            <div className="MovieCardText">
+              <h2>{popularMovie.title}</h2>
+            </div>
 
             <div
               className="overlay d-flex align-items-center justify-content-center"

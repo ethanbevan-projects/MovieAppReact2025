@@ -9,9 +9,13 @@ const HistoryList = (props) => {
         {props.historyShows.map((historyShow, index) => (
           <div
             key={historyShow.imdbID}
-            className="image-container d-flex align-items-center justify-content-center"
+            className="image-container d-flex align-items-center justify-content-center MovieCard"
           >
             <img src={historyShow.Poster} alt="historyShow"></img>
+
+            <div className="MovieCardText">
+              <h2>{historyShow.Title}</h2>
+            </div>
             <div
               className="overlay d-flex align-items-center justify-content-center"
               onClick={() => props.handleFavouritesClick(historyShow)}

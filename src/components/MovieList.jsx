@@ -9,15 +9,17 @@ const MovieList = (props) => {
         {props.movies.map((movie, index) => (
           <div
             key={movie.imdbID}
-            className="image-container d-flex align-items-center justify-content-center"
+            className="image-container d-flex align-items-center justify-content-center MovieCard"
           >
-            <h2>{movie.Title}</h2>
-
             <img
               src={movie.Poster}
               alt="movie"
               onError={(e) => (e.target.style.display = "none")}
             />
+
+            <div className="MovieCardText">
+              <h2>{movie.Title}</h2>
+            </div>
 
             <div
               className="overlay d-flex align-items-center justify-content-center"
