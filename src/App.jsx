@@ -10,6 +10,8 @@ import SearchBox from "./components/SearchBox";
 import addFavourites from "./components/addFavourites";
 import RemoveFavourites from "./components/RemoveFavourites";
 import HistoryList from "./components/HistoryList";
+import popularMovies2025 from "./data/popularMovies2025.json";
+import PopularList from "./components/PopularList";
 
 const App = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -18,16 +20,94 @@ const App = () => {
   const [favourites, setFavourites] = useState([]);
   const [historySaves, sethistorySaves] = useState([]);
   const [historyShows, sethistoryShows] = useState([]);
+  const [genreHistories, setgenreHistories] = useState([]);
 
   const getMovieRequest = async () => {
     const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=df9e59e0`;
     const response = await fetch(url);
     const responsJson = await response.json();
 
-    if (responsJson.Search) {
-      setMovies(responsJson.Search);
-      localStorage.setItem("lastSearch", searchValue);
+    if (!responsJson.Search) {
+      setMovies([]); // clear previous results
+      return;
     }
+
+    const fullMovieDetailsList = await Promise.all(
+      responsJson.Search.map(async (searchItem) => {
+        const id = searchItem.imdbID;
+        const fullDetailsUrl = `http://www.omdbapi.com/?i=${id}&apikey=df9e59e0`;
+        const fullDetailsResponse = await fetch(fullDetailsUrl);
+        const fullMovieDetails = await fullDetailsResponse.json();
+        const votes = +fullMovieDetails.imdbVotes?.replace(/,/g, "") || 0;
+        return votes >= 10000 ? fullMovieDetails : null;
+      })
+    );
+
+    const filteredMovies = fullMovieDetailsList.filter(Boolean);
+    setMovies(filteredMovies);
+
+    if (responsJson.Search) {
+      localStorage.setItem("lastSearch", searchValue);
+
+      const timer = setTimeout(async () => {
+        console.log("3 seconds");
+
+        let foundValid = false;
+
+        for (const searchResult of responsJson.Search) {
+          const movieId = searchResult.imdbID;
+
+          const fullDataUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=df9e59e0`;
+          const fullDataResponse = await fetch(fullDataUrl);
+          const fullMovieData = await fullDataResponse.json();
+
+          const voteCount = +fullMovieData.imdbVotes?.replace(/,/g, "") || 0;
+
+          const searchWords = searchValue.toLowerCase().split(" ");
+          const titleLower = fullMovieData.Title.toLowerCase();
+
+          const hasAnyWord = searchWords.some((word) =>
+            titleLower.includes(word)
+          );
+
+          if (voteCount >= 10000 && hasAnyWord) {
+            foundValid = true;
+            break;
+          }
+        }
+
+        if (foundValid) {
+          const savedHistory = JSON.parse(
+            localStorage.getItem("historySaves") || "[]"
+          );
+
+          const normalizedSaved = savedHistory.map((s) =>
+            s.toLowerCase().trim()
+          );
+          const normalizedInput = searchValue.toLowerCase().trim();
+
+          const isTooSimilar = normalizedSaved.some(
+            (saved) =>
+              normalizedInput.includes(saved) || saved.includes(normalizedInput)
+          );
+
+          if (!isTooSimilar) {
+            const updatedSavedHistory = [searchValue, ...savedHistory];
+
+            sethistorySaves(updatedSavedHistory);
+
+            console.log({ updatedSavedHistory });
+
+            localStorage.setItem(
+              "historySaves",
+              JSON.stringify(updatedSavedHistory)
+            );
+          }
+        }
+      }, 2000);
+    }
+
+    return () => clearTimeout(timer);
   };
 
   useEffect(() => {
@@ -36,34 +116,12 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (searchValue) {
-      getMovieRequest();
-    }
-  }, [searchValue]);
+    const delay = setTimeout(() => {
+      if (searchValue.length >= 2) getMovieRequest();
+      else setMovies([]); // clear if input is short
+    }, 500);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      console.log("3 seconds");
-
-      const historySavedBox = JSON.parse(
-        localStorage.getItem("historySaves") || "[]"
-      );
-
-      if (searchValue && !historySavedBox.includes(searchValue)) {
-        const updatedhistorySavedBox = [searchValue, ...historySavedBox];
-
-        sethistorySaves(updatedhistorySavedBox);
-
-        console.log({ updatedhistorySavedBox });
-
-        localStorage.setItem(
-          "historySaves",
-          JSON.stringify(updatedhistorySavedBox)
-        );
-      }
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    return () => clearTimeout(delay);
   }, [searchValue]);
 
   useEffect(() => {
@@ -140,6 +198,11 @@ const App = () => {
               favouriteComponent={addFavourites}
             />
           </div>
+
+          <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
+            <MovieListHeading heading="Your Recommendations" />
+          </div>
+
           <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
             <MovieListHeading heading="Favourites" />
           </div>
@@ -161,10 +224,6 @@ const App = () => {
               handleFavouritesClick={addFavouriteMovie}
               favouriteComponent={addFavourites}
             />
-          </div>
-
-          <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
-            <MovieListHeading heading="Your Recommended" />
           </div>
         </div>
       </div>

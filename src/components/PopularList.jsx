@@ -1,20 +1,17 @@
 import React from "react";
 
-const MovieList = (props) => {
+const PopularList = () => {
   const FavouriteComponent = props.favouriteComponent;
 
   return (
     <>
       <div style={{ display: "flex", gap: "20px", flexWrap: "nowrap" }}>
-        {props.movies.map((movie, index) => (
-          <div
-            key={movie.imdbID}
-            className="image-container d-flex align-items-center justify-content-center"
-          >
-            <h2>{movie.Title}</h2>
+        {popularMovies2025.map((movie) => (
+          <div className="image-container d-flex align-items-center justify-content-center">
+            <li key={movie.title}>{movie.title}</li>
 
             <img
-              src={movie.Poster}
+              src=""
               alt="movie"
               onError={(e) => (e.target.style.display = "none")}
             />
@@ -32,4 +29,4 @@ const MovieList = (props) => {
   );
 };
 
-export default MovieList;
+export default PopularList;

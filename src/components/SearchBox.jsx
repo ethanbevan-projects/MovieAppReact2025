@@ -5,7 +5,14 @@ const SearchBox = (props) => {
     <input
       className="form-control"
       value={props.value}
-      onChange={(event) => props.setsearchValue(event.target.value)}
+      onChange={(e) => {
+        const value = e.target.value;
+        props.setsearchValue(value);
+        if (!value) {
+          const saved = localStorage.getItem("lastSearch");
+          if (saved) props.setsearchValue(saved);
+        }
+      }}
       placeholder="Type to search..."
     ></input>
   );
