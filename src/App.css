@@ -1,4 +1,10 @@
 /* Css from start */
+
+html,
+body {
+  overflow-x: hidden;
+}
+
 body {
   background: linear-gradient(to top, #022a02, #000000);
 }
@@ -43,6 +49,7 @@ body,
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  margin: 0px 10px 20px 10px;
 }
 
 /* General */
@@ -57,7 +64,12 @@ h1,
 h2,
 h3 {
   color: white;
-  margin: 20px;
+  margin: 20px 0px;
+}
+
+.h2 {
+  font-size: 35px !important;
+  margin: 5px 0px;
 }
 
 .NavHeader {
@@ -71,12 +83,12 @@ h3 {
   top: 0;
   width: 100%;
   z-index: 2000;
-  height: 60px; /* optional: fix height */
+  height: 75px; /* optional: fix height */
 }
 
 .hamburger-icon {
   position: absolute;
-  right: 15px;
+  right: 30px;
   top: 50%;
   transform: translateY(-50%);
   margin: 8px 10px 0px 0px;
@@ -148,12 +160,12 @@ img {
 .image-container {
   position: relative;
   transform: transform 0.5s;
-  height: 490px;
+  height: 480px;
 }
 
 .row img {
-  width: 300px;
-  height: 450px;
+  width: 280px;
+  height: 420px;
 }
 
 .image-container:hover {
@@ -209,7 +221,7 @@ img {
 }
 
 .MovieTitleAndSearchBox {
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 }
 
 .movie-app > .row::-webkit-scrollbar {
@@ -226,12 +238,12 @@ img {
 }
 
 .favouriteRow {
-  margin-bottom: 60px;
+  margin-bottom: 0px;
   margin-top: 20px;
 }
 
 .MovieFavouriteTitle {
-  margin-top: 15px;
+  margin-top: 0px;
 }
 
 .MovieCard {
@@ -239,10 +251,42 @@ img {
 }
 
 .MovieCardText h2 {
-  font-size: 14px;
   text-align: center;
+  font-size: 12px;
+  text-align: center;
+  color: rgb(255 255 255);
 }
 
 .MovieCardText {
   width: 100%;
+}
+
+.form-control {
+  background: #ffffff00;
+  border: none !important;
+  border-radius: 0%;
+  color: white !important;
+  font-size: 17px;
+  margin: 0px 25px;
+  width: 100% !important;
+  text-align: center;
+  padding: 10px;
+}
+
+.form-control::placeholder {
+  color: rgb(145, 145, 145);
+  opacity: 1;
+}
+
+.form-control:focus {
+  outline: none;
+  border-bottom: 1px solid rgb(71, 71, 71) !important;
+  box-shadow: none;
+  background: #ffffff00;
+}
+
+.theSearchBox {
+  width: 100%;
+  margin-top: 10px;
+  margin-left: -6px;
 }

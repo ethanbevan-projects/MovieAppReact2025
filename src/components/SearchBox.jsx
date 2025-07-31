@@ -13,7 +13,7 @@ const SearchBox = (props) => {
           if (saved) props.setsearchValue(saved);
         }
       }}
-      placeholder="Type to search..."
+      placeholder="Search any movie..."
     ></input>
   );
 };

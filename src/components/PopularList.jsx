@@ -7,7 +7,10 @@ const PopularList = (props) => {
     <>
       <div style={{ display: "flex", gap: "20px", flexWrap: "nowrap" }}>
         {props.popularMovies.map((popularMovie) => (
-          <div className="image-container d-flex align-items-center justify-content-center MovieCard">
+          <div
+            key={popularMovie.imdbID || popularMovie.title} // fallback if no imdbID
+            className="image-container d-flex align-items-center justify-content-center MovieCard"
+          >
             <img
               src={popularMovie.poster}
               alt="movie"

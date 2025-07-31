@@ -14,7 +14,7 @@ function Nav({ showMenu, setShowMenu }) {
         <img
           className="imageFakeflix"
           src="./Images/Net-removebg-preview.png"
-          style={{ width: "140px" }}
+          style={{ width: "150px" }}
         ></img>
       </header>
 
