@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import "./App.css";
 import MovieList from "./components/MovieList";
 import Nav from "./components/Nav";
@@ -10,8 +9,12 @@ import SearchBox from "./components/SearchBox";
 import addFavourites from "./components/addFavourites";
 import RemoveFavourites from "./components/RemoveFavourites";
 import HistoryList from "./components/HistoryList";
+
 import popularMovies2025 from "./data/popularMovies2025.json";
 import PopularList from "./components/PopularList";
+
+import genreJsonList from "./data/genreJsonList.json";
+import GenreList from "./components/GenreList";
 
 const App = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -27,12 +30,23 @@ const App = () => {
   const [historyShows, sethistoryShows] = useState([]);
 
   const [genreHistories, setgenreHistories] = useState([]);
+
   const [popularMovies, setpopularMovies] = useState([]);
+
+  const [genres, setGenres] = useState([]);
+
+  const [genreNames, setgenreNames] = useState([]);
+
   const [hasLoaded, setHasLoaded] = useState(false);
   const [userTyped, setUserTyped] = useState(false);
 
+  const [genresNav, setgenresNav] = useState([]);
+  const [genresListed, setgenresListed] = useState([]);
+  const [genreMoviesData, setGenreMoviesData] = useState([]);
+  const [selectedGenreName, setSelectedGenreName] = useState("");
+
   const getMovieRequest = async () => {
-    const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=90083022`;
+    const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=980d1d3c`;
     const response = await fetch(url);
     const responsJson = await response.json();
 
@@ -44,7 +58,7 @@ const App = () => {
     const fullMovieDetailsList = await Promise.all(
       responsJson.Search.map(async (searchItem) => {
         const id = searchItem.imdbID;
-        const fullDetailsUrl = `http://www.omdbapi.com/?i=${id}&apikey=90083022`;
+        const fullDetailsUrl = `http://www.omdbapi.com/?i=${id}&apikey=980d1d3c`;
         const fullDetailsResponse = await fetch(fullDetailsUrl);
         const fullMovieDetails = await fullDetailsResponse.json();
         const votes = +fullMovieDetails.imdbVotes?.replace(/,/g, "") || 0;
@@ -53,6 +67,7 @@ const App = () => {
     );
 
     const filteredMovies = fullMovieDetailsList.filter(Boolean);
+
     setMovies(filteredMovies);
     setrecentShows(filteredMovies);
     localStorage.setItem("recentShows", JSON.stringify(filteredMovies));
@@ -66,7 +81,7 @@ const App = () => {
         for (const searchResult of responsJson.Search) {
           const movieId = searchResult.imdbID;
 
-          const fullDataUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=90083022`;
+          const fullDataUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=980d1d3c`;
           const fullDataResponse = await fetch(fullDataUrl);
           const fullMovieData = await fullDataResponse.json();
 
@@ -117,6 +132,39 @@ const App = () => {
     return () => clearTimeout(timer);
   };
 
+  const clickedGenre = (clicked) => {
+    setSelectedGenreName(clicked);
+
+    const genreClickedOn = genreJsonList.find(
+      ({ genreName }) => genreName === clicked
+    );
+
+    if (genreClickedOn) {
+      setgenresListed(genreClickedOn.topFilms);
+    }
+  };
+
+  useEffect(() => {
+    const fetchGenreMovies = async () => {
+      if (!genresListed.length) return;
+
+      const data = await Promise.all(
+        genresListed.map(async (title) => {
+          const url = `https://www.omdbapi.com/?t=${encodeURIComponent(
+            title
+          )}&apikey=980d1d3c`;
+          const res = await fetch(url);
+          return await res.json();
+        })
+      );
+      const shuffled = [...data].sort(() => Math.random() - 0.5);
+
+      setGenreMoviesData(shuffled);
+    };
+
+    fetchGenreMovies();
+  }, [genresListed]);
+
   useEffect(() => {
     const savedRecentShowsStorage = JSON.parse(
       localStorage.getItem("recentShows") || "[]"
@@ -147,7 +195,7 @@ const App = () => {
   }, [historySaves]);
 
   const getHistoryRequest = async () => {
-    const urlHistory = `http://www.omdbapi.com/?s=${historySaves[1]}&apikey=90083022`;
+    const urlHistory = `http://www.omdbapi.com/?s=${historySaves[1]}&apikey=980d1d3c`;
     const responseHistory = await fetch(urlHistory);
     const responsJsonHistory = await responseHistory.json();
 
@@ -155,7 +203,7 @@ const App = () => {
       const detailed = await Promise.all(
         responsJsonHistory.Search.map(async (m) => {
           const res = await fetch(
-            `http://www.omdbapi.com/?i=${m.imdbID}&apikey=90083022`
+            `http://www.omdbapi.com/?i=${m.imdbID}&apikey=980d1d3c`
           );
           const data = await res.json();
           const votes = +data.imdbVotes.replace(/,/g, "") || 0;
@@ -179,13 +227,18 @@ const App = () => {
       popularMovies2025.map(async ({ title }) => {
         const url = `https://www.omdbapi.com/?t=${encodeURIComponent(
           title
-        )}&apikey=90083022`;
+        )}&apikey=980d1d3c`;
         const response = await fetch(url);
         const data = await response.json();
-        return { title, poster: data.Poster, imdbID: data.imdbID };
+        return {
+          Title: data.Title,
+          Poster: data.Poster,
+          imdbID: data.imdbID,
+        };
       })
     );
-    setpopularMovies(moviesWithPosters);
+
+    setpopularMovies(moviesWithPosters.sort(() => Math.random() - 0.5));
   };
 
   useEffect(() => {
@@ -199,7 +252,7 @@ const App = () => {
   }, [recentSearches]);
 
   const addFavouriteMovie = (movie) => {
-    const newFavouriteList = [...favourites, movie];
+    const newFavouriteList = [movie, ...favourites];
     setFavourites(newFavouriteList);
     saveToLocalStorage(newFavouriteList);
   };
@@ -227,7 +280,12 @@ const App = () => {
 
   return (
     <div className="MoviesApp">
-      <Nav showMenu={showMenu} setShowMenu={setShowMenu} />
+      <Nav
+        showMenu={showMenu}
+        setShowMenu={setShowMenu}
+        genreJsonList={genreJsonList}
+        clickedGenre={clickedGenre}
+      />
 
       <div className="container-fluid ">
         <div className="MovieTitleAndSearchBox">
@@ -239,6 +297,10 @@ const App = () => {
                 if (val.trim().length === 0) {
                   setUserTyped(false);
                   setMovies([]);
+                  const saved = JSON.parse(
+                    localStorage.getItem("recentShows") || "[]"
+                  );
+                  setrecentShows(saved);
                 } else {
                   setUserTyped(true);
                 }
@@ -266,8 +328,26 @@ const App = () => {
             </div>
           )}
 
+          {genreMoviesData?.length > 0 && selectedGenreName && (
+            <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
+              <MovieListHeading
+                heading={`${selectedGenreName} top picks this week`}
+              />
+            </div>
+          )}
+
+          {genreMoviesData?.length > 0 && selectedGenreName && (
+            <div className="row">
+              <PopularList
+                popularMovies={genreMoviesData}
+                handleFavouritesClick={addFavouriteMovie}
+                favouriteComponent={addFavourites}
+              />
+            </div>
+          )}
+
           <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
-            <MovieListHeading heading="Our Top Picks" />
+            <MovieListHeading heading="Our Most Popular 2025" />
           </div>
 
           <div className="row">
@@ -278,40 +358,52 @@ const App = () => {
             />
           </div>
 
-          <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
-            <MovieListHeading heading="Your recent searches" />
-          </div>
+          {!searchValue.trim() && hasLoaded && (
+            <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
+              <MovieListHeading heading="Your recent searches" />
+            </div>
+          )}
+          {!searchValue.trim() && hasLoaded && (
+            <div className="row">
+              <MovieList
+                movies={recentShows}
+                handleFavouritesClick={addFavouriteMovie}
+                favouriteComponent={addFavourites}
+              />
+            </div>
+          )}
 
-          <div className="row">
-            <MovieList
-              movies={recentShows}
-              handleFavouritesClick={addFavouriteMovie}
-              favouriteComponent={addFavourites}
-            />
-          </div>
+          {favourites.length > 0 && (
+            <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
+              <MovieListHeading heading="Favourites" />
+            </div>
+          )}
 
-          <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
-            <MovieListHeading heading="Favourites" />
-          </div>
-          <div className="row favouriteRow">
-            <MovieList
-              movies={favourites}
-              handleFavouritesClick={removeFavouriteMovie}
-              favouriteComponent={RemoveFavourites}
-            />
-          </div>
+          {favourites.length > 0 && (
+            <div className="row favouriteRow">
+              <MovieList
+                movies={favourites}
+                handleFavouritesClick={removeFavouriteMovie}
+                favouriteComponent={RemoveFavourites}
+              />
+            </div>
+          )}
 
-          <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
-            <MovieListHeading heading="Recent History" />
-          </div>
+          {historySaves.length > 2 && (
+            <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
+              <MovieListHeading heading="Recent History" />
+            </div>
+          )}
 
-          <div className="row">
-            <HistoryList
-              historyShows={historyShows}
-              handleFavouritesClick={addFavouriteMovie}
-              favouriteComponent={addFavourites}
-            />
-          </div>
+          {historySaves.length > 2 && (
+            <div className="row">
+              <HistoryList
+                historyShows={historyShows}
+                handleFavouritesClick={addFavouriteMovie}
+                favouriteComponent={addFavourites}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

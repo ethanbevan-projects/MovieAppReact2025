@@ -1,0 +1,256 @@
+[
+  {
+    "genreName": "Action",
+    "topFilms": [
+      "Havoc",
+      "The Old Guard 2",
+      "Back in Action",
+      "Counterstrike",
+      "Extraction"
+    ]
+  },
+  {
+    "genreName": "Comedy",
+    "topFilms": [
+      "Happy Gilmore 2",
+      "Kinda Pregnant",
+      "Back in Action",
+      "The Naked Gun",
+      "The Hangover"
+    ]
+  },
+  {
+    "genreName": "Sci-Fi",
+    "topFilms": [
+      "The Electric State",
+      "Atlas",
+      "Lift",
+      "The Matrix",
+      "Interstellar"
+    ]
+  },
+  {
+    "genreName": "Thriller",
+    "topFilms": ["Havoc", "The Union", "Rebel Ridge", "Gone Girl", "Prisoners"]
+  },
+  {
+    "genreName": "Drama",
+    "topFilms": [
+      "A Family Affair",
+      "The Life List",
+      "Train Dreams",
+      "The Shawshank Redemption",
+      "Marriage Story"
+    ]
+  },
+  {
+    "genreName": "Horror",
+    "topFilms": [
+      "Ziam",
+      "Fear Street: Prom Queen",
+      "Hereditary",
+      "Get Out",
+      "The Conjuring"
+    ]
+  },
+  {
+    "genreName": "Adventure",
+    "topFilms": [
+      "Atlas",
+      "The Union",
+      "Ad Vitam",
+      "Indiana Jones",
+      "The Revenant"
+    ]
+  },
+  {
+    "genreName": "Mystery",
+    "topFilms": [
+      "Brick",
+      "The Life List",
+      "Knives Out",
+      "The Girl with the Dragon Tattoo",
+      "Zodiac"
+    ]
+  },
+  {
+    "genreName": "Romance",
+    "topFilms": [
+      "A Family Affair",
+      "The Notebook",
+      "Pride & Prejudice",
+      "Before Sunrise",
+      "La La Land"
+    ]
+  },
+  {
+    "genreName": "Animation",
+    "topFilms": [
+      "KPop Demon Hunters",
+      "Up",
+      "Spirited Away",
+      "Shrek",
+      "Inside Out"
+    ]
+  },
+  {
+    "genreName": "Crime",
+    "topFilms": [
+      "Rebel Ridge",
+      "The Godfather",
+      "Pulp Fiction",
+      "Goodfellas",
+      "The Departed"
+    ]
+  },
+  {
+    "genreName": "Fantasy",
+    "topFilms": [
+      "Damsel",
+      "Harry Potter",
+      "Pan's Labyrinth",
+      "The Lord of the Rings",
+      "The Green Knight"
+    ]
+  },
+  {
+    "genreName": "Documentary",
+    "topFilms": [
+      "The Last Dance",
+      "13th",
+      "Free Solo",
+      "American Factory",
+      "Fyre"
+    ]
+  },
+  {
+    "genreName": "Biography",
+    "topFilms": [
+      "Oppenheimer",
+      "Bohemian Rhapsody",
+      "The Social Network",
+      "The Imitation Game",
+      "The Theory of Everything"
+    ]
+  },
+  {
+    "genreName": "Family",
+    "topFilms": [
+      "Paddington 2",
+      "The Incredibles",
+      "Matilda",
+      "Finding Nemo",
+      "Mary Poppins Returns"
+    ]
+  },
+  {
+    "genreName": "Music",
+    "topFilms": [
+      "Whiplash",
+      "La La Land",
+      "A Star is Born",
+      "Pitch Perfect",
+      "Amadeus"
+    ]
+  },
+  {
+    "genreName": "Musical",
+    "topFilms": [
+      "The Greatest Showman",
+      "Les Misérables",
+      "Chicago",
+      "Mamma Mia!",
+      "Hamilton"
+    ]
+  },
+  {
+    "genreName": "Short",
+    "topFilms": [
+      "Bao",
+      "The Present",
+      "Piper",
+      "Hair Love",
+      "If Anything Happens I Love You"
+    ]
+  },
+  {
+    "genreName": "Sport",
+    "topFilms": [
+      "Rush",
+      "Creed",
+      "Moneyball",
+      "Ford v Ferrari",
+      "The Blind Side"
+    ]
+  },
+  {
+    "genreName": "History",
+    "topFilms": [
+      "Schindler's List",
+      "Dunkirk",
+      "12 Years a Slave",
+      "Lincoln",
+      "Braveheart"
+    ]
+  },
+  {
+    "genreName": "Film-Noir",
+    "topFilms": [
+      "Double Indemnity",
+      "Sunset Boulevard",
+      "Touch of Evil",
+      "The Big Sleep",
+      "Chinatown"
+    ]
+  },
+  {
+    "genreName": "Game-Show",
+    "topFilms": [
+      "Slumdog Millionaire",
+      "Quiz Show",
+      "The Price is Right Documentary",
+      "Confetti",
+      "Wheel of Fortune History"
+    ]
+  },
+  {
+    "genreName": "News",
+    "topFilms": [
+      "Broadcast News",
+      "The Post",
+      "The Newsroom",
+      "Network",
+      "Spotlight"
+    ]
+  },
+  {
+    "genreName": "Reality-TV",
+    "topFilms": [
+      "Cheer",
+      "The Circle",
+      "Too Hot to Handle",
+      "Love is Blind",
+      "Survivor"
+    ]
+  },
+  {
+    "genreName": "War",
+    "topFilms": [
+      "1917",
+      "Saving Private Ryan",
+      "Dunkirk",
+      "Fury",
+      "American Sniper"
+    ]
+  },
+  {
+    "genreName": "Western",
+    "topFilms": [
+      "The Power of the Dog",
+      "Django Unchained",
+      "True Grit",
+      "The Hateful Eight",
+      "The Good, the Bad and the Ugly"
+    ]
+  }
+]

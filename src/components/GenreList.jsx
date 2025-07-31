@@ -1,29 +1,29 @@
 import React from "react";
 
-const PopularList = (props) => {
+const GenreList = (props) => {
   const FavouriteComponent = props.favouriteComponent;
 
   return (
     <>
       <div style={{ display: "flex", gap: "20px", flexWrap: "nowrap" }}>
-        {props.popularMovies.map((popularMovie) => (
+        {props.genres.map((genre) => (
           <div
-            key={popularMovie.imdbID || popularMovie.title} // fallback if no imdbID
+            key={genre.imdbID || genre.title} // fallback if no imdbID
             className="image-container d-flex align-items-center justify-content-center MovieCard"
           >
             <img
-              src={popularMovie.Poster}
+              src={genre.Poster}
               alt="movie"
               onError={(e) => (e.target.style.display = "none")}
             />
 
             <div className="MovieCardText">
-              <h2>{popularMovie.Title}</h2>
+              <h2>{genre.Title}</h2>
             </div>
 
             <div
               className="overlay d-flex align-items-center justify-content-center"
-              onClick={() => props.handleFavouritesClick(popularMovie)}
+              onClick={() => props.handleFavouritesClick(genre)}
             >
               <FavouriteComponent />
             </div>
@@ -34,4 +34,4 @@ const PopularList = (props) => {
   );
 };
 
-export default PopularList;
+export default GenreList;
