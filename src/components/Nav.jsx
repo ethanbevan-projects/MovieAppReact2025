@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa";
 
-function Nav({ showMenu, setShowMenu, genreJsonList, clickedGenre }) {
+function Nav({
+  showMenu,
+  setShowMenu,
+  genreJsonList,
+  clickedGenre,
+  MovieList,
+  favourites,
+  removeFavouriteMovie,
+  RemoveFavourites,
+}) {
   return (
     <>
       <header className="NavHeader">
@@ -49,9 +58,20 @@ function Nav({ showMenu, setShowMenu, genreJsonList, clickedGenre }) {
 
       {showMenu && (
         <div className="FullscreenMenu">
-          <button className="close-button" onClick={() => setShowMenu(false)}>
-            ✕
-          </button>
+          <div>
+            <button className="close-button" onClick={() => setShowMenu(false)}>
+              ✕
+            </button>
+          </div>
+          <div className="container-fluid navFavourites">
+            <div className="row favouriteRow">
+              <MovieList
+                movies={favourites}
+                handleFavouritesClick={removeFavouriteMovie}
+                favouriteComponent={RemoveFavourites}
+              />
+            </div>
+          </div>
         </div>
       )}
     </>

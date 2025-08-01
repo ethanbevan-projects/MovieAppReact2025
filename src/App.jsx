@@ -285,6 +285,10 @@ const App = () => {
         setShowMenu={setShowMenu}
         genreJsonList={genreJsonList}
         clickedGenre={clickedGenre}
+        MovieList={MovieList}
+        favourites={favourites}
+        removeFavouriteMovie={removeFavouriteMovie}
+        RemoveFavourites={RemoveFavourites}
       />
 
       <div className="container-fluid ">
@@ -293,14 +297,20 @@ const App = () => {
             <SearchBox
               searchValue={searchValue}
               setsearchValue={(val) => {
-                setsearchValue(val);
-                if (val.trim().length === 0) {
+                const trimmed = val.trim();
+                setsearchValue(trimmed);
+
+                if (trimmed === "") {
                   setUserTyped(false);
-                  setMovies([]);
-                  const saved = JSON.parse(
+                  const recent = JSON.parse(
                     localStorage.getItem("recentShows") || "[]"
                   );
-                  setrecentShows(saved);
+                  setrecentShows(recent); // update recentShows state
+                  setMovies([]);
+                  // clear search results
+                  setrecentShows(
+                    JSON.parse(localStorage.getItem("recentShows") || "[]")
+                  ); // ✅ HERE
                 } else {
                   setUserTyped(true);
                 }
@@ -358,19 +368,19 @@ const App = () => {
             />
           </div>
 
-          {!searchValue.trim() && hasLoaded && (
-            <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
-              <MovieListHeading heading="Your recent searches" />
-            </div>
-          )}
-          {!searchValue.trim() && hasLoaded && (
-            <div className="row">
-              <MovieList
-                movies={recentShows}
-                handleFavouritesClick={addFavouriteMovie}
-                favouriteComponent={addFavourites}
-              />
-            </div>
+          {!searchValue.trim() !== "" && recentShows.length > 0 && (
+            <>
+              <div className=" MovieTitleAndSearch MovieFavouriteTitle d-flex justify-content-between align-items-center gap-3">
+                <MovieListHeading heading="Your Recent Search" />
+              </div>
+              <div className="row">
+                <MovieList
+                  movies={recentShows}
+                  handleFavouritesClick={addFavouriteMovie}
+                  favouriteComponent={addFavourites}
+                />
+              </div>
+            </>
           )}
 
           {favourites.length > 0 && (
