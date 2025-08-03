@@ -38,10 +38,10 @@ body,
   overflow-x: hidden;
   width: 100%;
   display: flex;
-  flex-direction: column; /* ensures top-down flow */
-  align-items: stretch; /* or unset */
+  flex-direction: column;
+  align-items: stretch;
   justify-content: flex-start;
-  padding-top: 10px; /* match header height */
+  padding-top: 10px;
 }
 
 .MovieTitleAndSearch {
@@ -80,11 +80,11 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed; /* ✅ Add this */
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 2000;
-  height: 75px; /* optional: fix height */
+  height: 75px;
 }
 
 .hamburger-icon {
@@ -117,7 +117,7 @@ h3 {
   height: 100vh;
   width: 100vw;
   background: black;
-  overflow-y: auto; /* enable scroll inside menu */
+  overflow-y: auto;
   z-index: 9999;
 }
 
@@ -224,7 +224,7 @@ img {
 .MovieTitleAndSearch {
   display: flex;
   align-items: center;
-  gap: 16px; /* spacing between title and input */
+  gap: 16px;
 }
 
 .MovieTitleAndSearch input {
@@ -243,7 +243,7 @@ img {
 }
 
 .movie-app > .row::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
 }
 
 .bi-x {
@@ -376,7 +376,7 @@ img {
   max-height: 90%;
   overflow-y: auto;
   position: relative;
-  padding-top: 40px; /* ensure space for button */
+  padding-top: 40px;
 }
 
 .MoviePopup video {

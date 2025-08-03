@@ -306,12 +306,12 @@ const App = () => {
                   const recent = JSON.parse(
                     localStorage.getItem("recentShows") || "[]"
                   );
-                  setrecentShows(recent); // update recentShows state
+                  setrecentShows(recent);
                   setMovies([]);
-                  // clear search results
+
                   setrecentShows(
                     JSON.parse(localStorage.getItem("recentShows") || "[]")
-                  ); // ✅ HERE
+                  );
                 } else {
                   setUserTyped(true);
                 }

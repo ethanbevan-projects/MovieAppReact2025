@@ -41,7 +41,7 @@ function Nav({
         <div className="center">
           <img
             className="imageFakeflix"
-            src="./Images/Net-removebg-preview.png"
+            src="https://i.ibb.co/XrxYCds4/Net-removebg-preview.png"
             style={{ width: "150px" }}
           />
         </div>
