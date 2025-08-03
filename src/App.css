@@ -392,3 +392,18 @@ img {
 .descriptionMovies {
   margin-bottom: 30px;
 }
+
+@media (max-width: 700px) {
+  .btn-secondary {
+    width: 98px;
+  }
+
+  .movie-app h1 {
+    text-align: center;
+    width: 100%;
+  }
+
+  .form-control {
+    margin: 0px 20px 0px 0px;
+  }
+}
