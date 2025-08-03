@@ -194,6 +194,22 @@ img {
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent);
 }
 
+.overlay2 {
+  position: absolute;
+  width: 100%;
+  transition: 0.3s ease;
+  opacity: 0;
+  bottom: 0;
+  font-size: 20px;
+  padding: 10px;
+  text-align: center;
+  height: 85%;
+}
+
+.image-container:hover .overlay2 {
+  opacity: 1;
+}
+
 img {
   display: block;
   width: 100%;
@@ -352,6 +368,7 @@ img {
 }
 
 .MoviePopupContent {
+  max-width: 700px !important;
   background: linear-gradient(to top, #022a02, #000000);
   padding: 20px;
   border-radius: 10px;
@@ -387,6 +404,7 @@ img {
 .PopupMovies {
   color: white;
   padding: 50px !important;
+  margin: 20px;
 }
 
 .descriptionMovies {

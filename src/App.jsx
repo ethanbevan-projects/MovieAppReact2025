@@ -234,6 +234,7 @@ const App = () => {
           Title: data.Title,
           Poster: data.Poster,
           imdbID: data.imdbID,
+          Plot: data.Plot,
         };
       })
     );

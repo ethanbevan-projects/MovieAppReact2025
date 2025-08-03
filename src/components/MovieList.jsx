@@ -10,7 +10,6 @@ const MovieList = (props) => {
         {props.movies.map((movie, index) => (
           <div
             key={movie.imdbID}
-            onClick={() => setSelectedMovie(movie)}
             className="image-container d-flex align-items-center justify-content-center MovieCard"
           >
             <img
@@ -29,6 +28,11 @@ const MovieList = (props) => {
             >
               <FavouriteComponent />
             </div>
+
+            <div
+              className="overlay2 d-flex align-items-center justify-content-center"
+              onClick={() => setSelectedMovie(movie)}
+            ></div>
           </div>
         ))}
 
