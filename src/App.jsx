@@ -293,9 +293,10 @@ const App = () => {
       />
 
       <div className="container-fluid ">
-        <div className="MovieTitleAndSearchBox">
+        <div className="MovieTitleAndSearchBox MovieTitleAndSearchBoxTop">
           <div className="theSearchBox">
             <SearchBox
+              getMovieRequest={getMovieRequest}
               searchValue={searchValue}
               setsearchValue={(val) => {
                 const trimmed = val.trim();
