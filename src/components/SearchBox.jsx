@@ -5,7 +5,7 @@ const SearchBox = (props) => {
     <input
       className="form-control"
       value={props.value}
-      onChange={(e) => {
+      onInput={(e) => {
         const value = e.target.value;
         props.setsearchValue(value);
         if (!value) {
@@ -13,6 +13,7 @@ const SearchBox = (props) => {
           if (saved) props.setsearchValue(saved);
         }
       }}
+      autoComplete="on"
       placeholder="Search any movie..."
     ></input>
   );
