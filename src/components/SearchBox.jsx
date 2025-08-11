@@ -8,7 +8,8 @@ const SearchBox = ({ getMovieRequest, setsearchValue, value }) => {
     setLocalValue(newValue);
     setsearchValue(newValue);
 
-    if (!newValue) {
+    if (false && !newValue) {
+      // disable restore on empty
       const saved = localStorage.getItem("lastSearch");
       if (saved) {
         setLocalValue(saved);

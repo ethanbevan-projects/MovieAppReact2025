@@ -174,8 +174,15 @@ const App = () => {
   useEffect(() => {
     if (!hasLoaded || !userTyped) return;
 
-    if (searchValue.length >= 2) getMovieRequest();
-    else setMovies([]);
+    const timer = setTimeout(() => {
+      if (searchValue.length >= 2) {
+        getMovieRequest();
+      } else {
+        setMovies([]);
+      }
+    }, 1000); // wait 400ms after last keystroke
+
+    return () => clearTimeout(timer); // clear on next input
   }, [searchValue, hasLoaded, userTyped]);
 
   useEffect(() => {

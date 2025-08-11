@@ -427,9 +427,8 @@ img {
 
 @media (max-width: 700px) {
   .btn-secondary {
-    width: 80px;
+    width: 85px;
     font-size: 14px;
-    margin-top: 5px;
   }
 
   .movie-app h1 {
@@ -461,7 +460,8 @@ img {
   }
 
   .imageFakeflix {
-    width: 115px !important;
+    width: 130px !important;
+    margin-top: 12px;
   }
 }
 
