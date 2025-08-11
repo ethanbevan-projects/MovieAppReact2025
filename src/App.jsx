@@ -45,8 +45,8 @@ const App = () => {
   const [genreMoviesData, setGenreMoviesData] = useState([]);
   const [selectedGenreName, setSelectedGenreName] = useState("");
 
-  const getMovieRequest = async () => {
-    const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=980d1d3c`;
+  const getMovieRequest = async (query = searchValue) => {
+    const url = `https://www.omdbapi.com/?s=${searchValue}&apikey=980d1d3c`;
     const response = await fetch(url);
     const responsJson = await response.json();
 
@@ -58,7 +58,7 @@ const App = () => {
     const fullMovieDetailsList = await Promise.all(
       responsJson.Search.map(async (searchItem) => {
         const id = searchItem.imdbID;
-        const fullDetailsUrl = `http://www.omdbapi.com/?i=${id}&apikey=980d1d3c`;
+        const fullDetailsUrl = `https://www.omdbapi.com/?i=${id}&apikey=980d1d3c`;
         const fullDetailsResponse = await fetch(fullDetailsUrl);
         const fullMovieDetails = await fullDetailsResponse.json();
         const votes = +fullMovieDetails.imdbVotes?.replace(/,/g, "") || 0;
@@ -75,61 +75,55 @@ const App = () => {
     if (responsJson.Search) {
       localStorage.setItem("lastSearch", searchValue);
 
-      const timer = setTimeout(async () => {
-        let foundValid = false;
+      let foundValid = false;
 
-        for (const searchResult of responsJson.Search) {
-          const movieId = searchResult.imdbID;
+      for (const searchResult of responsJson.Search) {
+        const movieId = searchResult.imdbID;
 
-          const fullDataUrl = `http://www.omdbapi.com/?i=${movieId}&apikey=980d1d3c`;
-          const fullDataResponse = await fetch(fullDataUrl);
-          const fullMovieData = await fullDataResponse.json();
+        const fullDataUrl = `https://www.omdbapi.com/?i=${movieId}&apikey=980d1d3c`;
+        const fullDataResponse = await fetch(fullDataUrl);
+        const fullMovieData = await fullDataResponse.json();
 
-          const voteCount = +fullMovieData.imdbVotes?.replace(/,/g, "") || 0;
+        const voteCount = +fullMovieData.imdbVotes?.replace(/,/g, "") || 0;
 
-          const searchWords = searchValue.toLowerCase().split(" ");
-          const titleLower = fullMovieData.Title.toLowerCase();
+        const searchWords = searchValue.toLowerCase().split(" ");
+        const titleLower = fullMovieData.Title.toLowerCase();
 
-          const hasAnyWord = searchWords.some((word) =>
-            titleLower.includes(word)
-          );
+        const hasAnyWord = searchWords.some((word) =>
+          titleLower.includes(word)
+        );
 
-          if (voteCount >= 30000 && hasAnyWord) {
-            foundValid = true;
-            break;
-          }
+        if (voteCount >= 30000 && hasAnyWord) {
+          foundValid = true;
+          break;
         }
+      }
 
-        if (foundValid) {
-          const savedHistory = JSON.parse(
-            localStorage.getItem("historySaves") || "[]"
+      if (foundValid) {
+        const savedHistory = JSON.parse(
+          localStorage.getItem("historySaves") || "[]"
+        );
+
+        const normalizedSaved = savedHistory.map((s) => s.toLowerCase().trim());
+        const normalizedInput = searchValue.toLowerCase().trim();
+
+        const isTooSimilar = normalizedSaved.some(
+          (saved) =>
+            normalizedInput.includes(saved) || saved.includes(normalizedInput)
+        );
+
+        if (!isTooSimilar) {
+          const updatedSavedHistory = [searchValue, ...savedHistory];
+
+          sethistorySaves(updatedSavedHistory);
+
+          localStorage.setItem(
+            "historySaves",
+            JSON.stringify(updatedSavedHistory)
           );
-
-          const normalizedSaved = savedHistory.map((s) =>
-            s.toLowerCase().trim()
-          );
-          const normalizedInput = searchValue.toLowerCase().trim();
-
-          const isTooSimilar = normalizedSaved.some(
-            (saved) =>
-              normalizedInput.includes(saved) || saved.includes(normalizedInput)
-          );
-
-          if (!isTooSimilar) {
-            const updatedSavedHistory = [searchValue, ...savedHistory];
-
-            sethistorySaves(updatedSavedHistory);
-
-            localStorage.setItem(
-              "historySaves",
-              JSON.stringify(updatedSavedHistory)
-            );
-          }
         }
-      }, 2000);
+      }
     }
-
-    return () => clearTimeout(timer);
   };
 
   const clickedGenre = (clicked) => {
@@ -180,12 +174,8 @@ const App = () => {
   useEffect(() => {
     if (!hasLoaded || !userTyped) return;
 
-    const delay = setTimeout(() => {
-      if (searchValue.length >= 2) getMovieRequest();
-      else setMovies([]);
-    }, 500);
-
-    return () => clearTimeout(delay);
+    if (searchValue.length >= 2) getMovieRequest();
+    else setMovies([]);
   }, [searchValue, hasLoaded, userTyped]);
 
   useEffect(() => {
@@ -195,7 +185,7 @@ const App = () => {
   }, [historySaves]);
 
   const getHistoryRequest = async () => {
-    const urlHistory = `http://www.omdbapi.com/?s=${historySaves[1]}&apikey=980d1d3c`;
+    const urlHistory = `https://www.omdbapi.com/?s=${historySaves[1]}&apikey=980d1d3c`;
     const responseHistory = await fetch(urlHistory);
     const responsJsonHistory = await responseHistory.json();
 
@@ -203,7 +193,7 @@ const App = () => {
       const detailed = await Promise.all(
         responsJsonHistory.Search.map(async (m) => {
           const res = await fetch(
-            `http://www.omdbapi.com/?i=${m.imdbID}&apikey=980d1d3c`
+            `https://www.omdbapi.com/?i=${m.imdbID}&apikey=980d1d3c`
           );
           const data = await res.json();
           const votes = +data.imdbVotes.replace(/,/g, "") || 0;

@@ -294,7 +294,7 @@ img {
   color: white !important;
   font-size: 17px;
   margin: 0px 20px 0px 10px;
-  width: 98.5% !important;
+  width: 99.5% !important;
   text-align: center;
   padding: 10px;
 }
@@ -323,11 +323,16 @@ img {
   left: 10px;
   z-index: 3000;
   padding: 18px 30px;
+  margin-top: 8px;
 }
 
 .btn-group button {
   background: transparent !important;
   z-index: 999999;
+}
+
+.btn::after {
+  display: none;
 }
 
 .btn-group button:focus,
@@ -422,7 +427,9 @@ img {
 
 @media (max-width: 700px) {
   .btn-secondary {
-    width: 98px;
+    width: 80px;
+    font-size: 14px;
+    margin-top: 5px;
   }
 
   .movie-app h1 {
@@ -452,10 +459,19 @@ img {
   .searchingDesktop {
     display: none;
   }
+
+  .imageFakeflix {
+    width: 115px !important;
+  }
 }
 
 @media (min-width: 700px) {
   .searchingMobile {
     display: none;
   }
+}
+
+.formSubmit {
+  width: 100%;
+  margin-left: 10px;
 }
